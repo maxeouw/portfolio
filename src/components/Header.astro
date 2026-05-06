@@ -1,0 +1,233 @@
+---
+const navLinks = [
+  { href: "/",          label: "Accueil"    },
+  { href: "/projets",   label: "Projets"    },
+  { href: "/parcours",   label: "Parcours"    },
+  { href: "/evenements", label: "Événements"  },
+  { href: "/contact",   label: "Contact"    },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="header">
+  <div class="container--wide header__inner">
+
+    <!-- Logo SVG -->
+    <a href="/" class="logo" aria-label="Retour à l'accueil">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+        <rect width="36" height="36" rx="8" fill="var(--color-primary)"/>
+        <path d="M10 12 L10 24 L14 24 L14 18 L18 24 L22 24 L18 18 L22 12 L18 12 L14 18 L14 12 Z"
+              fill="var(--color-text-inverse)" />
+        <circle cx="26" cy="24" r="2.5" fill="var(--color-text-inverse)" opacity="0.7"/>
+      </svg>
+      <span class="logo__text">Ton Nom</span>
+    </a>
+
+    <!-- Navigation desktop -->
+    <nav class="nav" aria-label="Navigation principale">
+      <ul role="list" class="nav__list">
+        {navLinks.map(link => (
+          <li>
+            <a
+              href={link.href}
+              class:list={["nav__link", { "nav__link--active": currentPath === link.href }]}
+              aria-current={currentPath === link.href ? "page" : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <!-- Actions -->
+    <div class="header__actions">
+      <button
+        data-theme-toggle
+        class="theme-toggle"
+        aria-label="Changer le thème"
+        type="button"
+      >
+        <!-- Contenu injecté par JS -->
+      </button>
+
+      <!-- Hamburger mobile -->
+      <button
+        class="hamburger"
+        aria-label="Ouvrir le menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        type="button"
+        id="hamburger-btn"
+      >
+        <i data-lucide="menu" width="22" height="22"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Menu mobile -->
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <nav aria-label="Navigation mobile">
+      <ul role="list" class="mobile-menu__list">
+        {navLinks.map(link => (
+          <li>
+            <a
+              href={link.href}
+              class:list={["mobile-menu__link", { "mobile-menu__link--active": currentPath === link.href }]}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: color-mix(in oklab, var(--color-bg) 92%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid oklch(from var(--color-text) l c h / 0.07);
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: var(--space-4);
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-decoration: none;
+}
+
+.logo__text {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--color-text);
+  letter-spacing: -0.02em;
+}
+
+/* Nav desktop */
+.nav__list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.nav__link {
+  display: block;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: color var(--transition-interactive), background var(--transition-interactive);
+}
+
+.nav__link:hover {
+  color: var(--color-text);
+  background: var(--color-surface-offset);
+}
+
+.nav__link--active {
+  color: var(--color-text);
+  background: var(--color-surface-offset);
+}
+
+/* Actions */
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+  transition: color var(--transition-interactive), background var(--transition-interactive);
+}
+
+.theme-toggle:hover {
+  color: var(--color-text);
+  background: var(--color-surface-offset);
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+}
+
+.hamburger:hover {
+  color: var(--color-text);
+  background: var(--color-surface-offset);
+}
+
+/* Mobile menu */
+.mobile-menu {
+  border-top: 1px solid var(--color-divider);
+  padding: var(--space-4);
+}
+
+.mobile-menu__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.mobile-menu__link {
+  display: block;
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  border-radius: var(--radius-md);
+}
+
+.mobile-menu__link:hover,
+.mobile-menu__link--active {
+  color: var(--color-text);
+  background: var(--color-surface-offset);
+}
+
+@media (max-width: 768px) {
+  .nav { display: none; }
+  .hamburger { display: flex; }
+}
+</style>
+
+<script>
+  const btn = document.getElementById('hamburger-btn');
+  const menu = document.getElementById('mobile-menu');
+
+  btn?.addEventListener('click', () => {
+    const isOpen = menu?.hidden === false;
+    menu?.toggleAttribute('hidden');
+    btn.setAttribute('aria-expanded', String(!isOpen));
+    btn.setAttribute('aria-label', isOpen ? 'Ouvrir le menu' : 'Fermer le menu');
+  });
+</script>
