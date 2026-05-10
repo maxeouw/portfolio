@@ -1,0 +1,648 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+// ✏️ PERSONNALISE CES FORMATIONS
+const formations = [
+  {
+    id: 1,
+    title: "Getting Started with Laravel",
+    provider: "Laravel",
+    category: "developpement",
+    format: "En ligne",
+    duration: "2H30",          
+    date: "Mars 2025",
+    status: "done",
+    statusLabel: "Terminée",
+    description: "Formation officielle d'introduction au framework Laravel. Découverte des fondamentaux : routing, contrôleurs, vues Blade, migrations et Eloquent ORM.",
+    skills: ["Laravel", "PHP", "Eloquent ORM", "Blade", "MVC", "Routing"],
+    certificate: null,      
+    link: "https://bootcamp.laravel.com",
+    photos: [
+      {
+        src: "assets/formations/screen_chipper.png",
+        alt: "Capture de la formation Getting Started with Laravel",
+        caption: "",
+      },
+      {
+        src: "assets/formations/screen_finito.png",
+        alt: "Exercice pratique de la formation",
+        caption: "",
+      },
+    ],
+  },
+  {
+    id: 2,
+    title: "PHP Fundamentals",
+    provider: "Laravel",
+    category: "developpement",
+    format: "En ligne",
+    duration: "1H30",           // ✏️ ex: "3 heures"
+    date: "Février 2026",               // ✏️ ex: "Février 2025"
+    status: "done",
+    statusLabel: "Terminée",
+    description: "Formation officielle Laravel dédiée aux bases du langage PHP. Couvre les types, les fonctions, la programmation orientée objet et les bonnes pratiques modernes en PHP.",
+    skills: ["PHP", "POO", "Types & fonctions", "Namespaces", "Composer"],
+    certificate: null,      // ✏️ ou "https://lien-vers-ton-certificat.pdf"
+    link: "https://laravel.com/learn/php-fundamentals",
+    photos: [
+      {
+        src: "/assets/formations/PHP.png",
+        alt: "Capture de la formation PHP Fundamentals",
+        caption: "",
+      },
+    ],
+  },
+  {
+    id: 3,
+    title: "Titre de la formation",
+    provider: "Nom de la plateforme / école",
+    category: "database",
+    format: "Présentiel",
+    duration: "X heures",
+    date: "Mois 20XX",
+    status: "progress",
+    statusLabel: "En cours",
+    description: "Décris brièvement ce que tu apprends dans cette formation.",
+    skills: ["Compétence 1", "Compétence 2"],
+    certificate: null,
+    link: null,
+  },
+];
+
+const categories = [
+  { value: "tous",           label: "Toutes",       icon: "layout-grid" },
+  { value: "developpement",  label: "Développement", icon: "code-2" },
+  { value: "devops",         label: "DevOps",        icon: "terminal" },
+  { value: "database",       label: "Base de données", icon: "database" },
+  { value: "design",         label: "Design / UX",  icon: "pen-tool" },
+  { value: "reseau",         label: "Réseau / Sys.", icon: "network" },
+  { value: "autre",          label: "Autre",         icon: "bookmark" },
+];
+
+// Stats rapides
+const total     = formations.length;
+const completed = formations.filter(f => f.status === "done").length;
+const inProgress = formations.filter(f => f.status === "progress").length;
+---
+
+<BaseLayout
+  title="Formations"
+  description="Les formations complémentaires que j'ai suivies en lien avec mes études en informatique."
+>
+  <Header slot="header" />
+
+  <!-- ── EN-TÊTE PAGE ── -->
+  <section class="page-hero">
+    <div class="container">
+      <p class="page-hero__label">
+        <i data-lucide="graduation-cap" width="14" height="14"></i>
+        Apprentissage continu
+      </p>
+      <h1 class="page-hero__title">Formations</h1>
+      <p class="page-hero__desc">
+        En parallèle de mes études, j'ai suivi une série de formations pour approfondir
+        mes compétences techniques et explorer de nouveaux outils.
+      </p>
+
+      <!-- Stats rapides -->
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat__value">{total}</span>
+          <span class="stat__label">formations</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat">
+          <span class="stat__value">{completed}</span>
+          <span class="stat__label">terminées</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat">
+          <span class="stat__value">{inProgress}</span>
+          <span class="stat__label">en cours</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FILTRES ── -->
+  <div class="filters-bar">
+    <div class="container">
+      <div class="filters" role="group" aria-label="Filtrer par domaine">
+        {categories.map(cat => (
+          <button
+            class="filter-btn"
+            data-filter={cat.value}
+            aria-pressed={cat.value === "tous" ? "true" : "false"}
+            type="button"
+          >
+            <i data-lucide={cat.icon} width="13" height="13"></i>
+            {cat.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- ── LISTE DES FORMATIONS ── -->
+  <section class="formations-section">
+    <div class="container">
+      <div id="formations-list">
+        {formations.map((formation) => (
+          <article
+            class="formation-card"
+            data-category={formation.category}
+            id={`formation-${formation.id}`}
+          >
+            <!-- Bande latérale colorée selon statut -->
+            <div class:list={["formation-card__stripe", `formation-card__stripe--${formation.status}`]} aria-hidden="true"></div>
+
+            <!-- Contenu principal -->
+            <div class="formation-card__content">
+
+              <!-- Head -->
+              <div class="formation-card__head">
+                <div class="formation-card__meta">
+                  <span class="formation-date">
+                    <i data-lucide="calendar" width="12" height="12"></i>
+                    {formation.date}
+                  </span>
+                  <span class="meta-sep" aria-hidden="true">·</span>
+                  <span class="formation-format">
+                    <i data-lucide={formation.format === "Présentiel" ? "map-pin" : "monitor"} width="12" height="12"></i>
+                    {formation.format}
+                  </span>
+                  <span class="meta-sep" aria-hidden="true">·</span>
+                  <span class="formation-duration">
+                    <i data-lucide="clock" width="12" height="12"></i>
+                    {formation.duration}
+                  </span>
+                </div>
+
+                <span class:list={["formation-status", `formation-status--${formation.status}`]}>
+                  {formation.status === "done"
+                    ? <><i data-lucide="check-circle" width="12" height="12"></i>{formation.statusLabel}</>
+                    : <><i data-lucide="loader"       width="12" height="12"></i>{formation.statusLabel}</>
+                  }
+                </span>
+              </div>
+
+              <!-- Titre & provider -->
+              <div class="formation-card__title-block">
+                <h2 class="formation-title">{formation.title}</h2>
+                <p class="formation-provider">
+                  <i data-lucide="building-2" width="13" height="13"></i>
+                  {formation.provider}
+                </p>
+              </div>
+
+              <!-- Description -->
+              <p class="formation-desc">{formation.description}</p>
+
+              <!-- Compétences acquises -->
+              {formation.skills.length > 0 && (
+                <div class="formation-skills">
+                  <span class="skills-label">Compétences acquises :</span>
+                  <ul role="list" class="skills-list">
+                    {formation.skills.map(skill => (
+                      <li class="skill-tag">{skill}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              <!-- Liens (certificat + lien formation) -->
+              {(formation.certificate || formation.link) && (
+                <div class="formation-links">
+                  {formation.certificate && (
+                    <a
+                      href={formation.certificate}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="formation-link formation-link--certificate"
+                    >
+                      <i data-lucide="award" width="14" height="14"></i>
+                      Voir le certificat
+                    </a>
+                  )}
+                  {formation.link && (
+                    <a
+                      href={formation.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="formation-link formation-link--external"
+                    >
+                      <i data-lucide="external-link" width="14" height="14"></i>
+                      Voir la formation
+                    </a>
+                  )}
+                </div>
+              )}
+              {formation.photos && formation.photos.length > 0 && (
+              <div class="formation-gallery">
+                <h3 class="formation-gallery__title">
+                  <i data-lucide="images" width="14" height="14"></i>
+                  Photos
+                </h3>
+
+                <div class="formation-gallery__grid">
+                  {formation.photos.map(photo => (
+                    <figure class="formation-gallery__item">
+                      <div class="formation-gallery__img-wrap">
+                        <img
+                          src={photo.src}
+                          alt={photo.alt}
+                          width="800"
+                          height="500"
+                          loading="lazy"
+                          decoding="async"
+                          class="formation-gallery__img"
+                        />
+                      </div>
+                      {photo.caption && (
+                        <figcaption class="formation-gallery__caption">{photo.caption}</figcaption>
+                      )}
+                    </figure>
+                  ))}
+                </div>
+              </div>
+            )}
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- État vide -->
+      <div class="empty-state" id="empty-state" hidden>
+        <div class="empty-state__icon">
+          <i data-lucide="search-x" width="28" height="28"></i>
+        </div>
+        <h3>Aucune formation dans ce domaine</h3>
+        <p>D'autres formations seront ajoutées bientôt.</p>
+        <button class="btn btn--ghost" id="reset-filter" type="button">
+          Voir toutes les formations
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<script>
+  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+  const cards      = document.querySelectorAll<HTMLElement>('.formation-card');
+  const emptyState = document.getElementById('empty-state');
+  const resetBtn   = document.getElementById('reset-filter');
+
+  function applyFilter(value: string) {
+    let visible = 0;
+    filterBtns.forEach(btn => btn.setAttribute('aria-pressed', String(btn.dataset.filter === value)));
+    cards.forEach(card => {
+      const match = value === 'tous' || card.dataset.category === value;
+      card.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    if (emptyState) emptyState.hidden = visible > 0;
+  }
+
+  filterBtns.forEach(btn => btn.addEventListener('click', () => applyFilter(btn.dataset.filter ?? 'tous')));
+  resetBtn?.addEventListener('click', () => applyFilter('tous'));
+</script>
+
+<style>
+/* ── PAGE HERO ── */
+.page-hero {
+  padding-block: clamp(var(--space-12), 8vw, var(--space-24));
+  border-bottom: 1px solid var(--color-divider);
+}
+.page-hero__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-primary);
+  margin-bottom: var(--space-3);
+}
+.page-hero__title {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
+.page-hero__desc {
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
+  max-width: 58ch;
+  line-height: 1.7;
+  margin-bottom: var(--space-8);
+}
+
+/* Stats */
+.hero-stats {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  flex-wrap: wrap;
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.stat__value {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+  line-height: 1;
+}
+.stat__label {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+.stat-divider {
+  width: 1px;
+  height: 32px;
+  background: var(--color-divider);
+}
+
+/* ── FILTRES ── */
+.filters-bar {
+  padding-block: var(--space-5);
+  position: sticky;
+  top: 61px;
+  z-index: 10;
+  background: color-mix(in oklab, var(--color-bg) 92%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-divider);
+}
+.filters { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+.filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-muted);
+  background: transparent;
+  border: 1px solid var(--color-border);
+  min-height: 36px;
+  cursor: pointer;
+  transition: color var(--transition-interactive), background var(--transition-interactive), border-color var(--transition-interactive);
+}
+.filter-btn:hover { color: var(--color-text); border-color: var(--color-text-muted); background: var(--color-surface-offset); }
+.filter-btn[aria-pressed="true"] { color: var(--color-primary); background: var(--color-primary-highlight); border-color: var(--color-primary); }
+
+/* ── SECTION ── */
+.formations-section {
+  padding-block: clamp(var(--space-10), 6vw, var(--space-20));
+}
+
+/* ── CARTE FORMATION ── */
+.formation-card {
+  display: flex;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--space-5);
+  transition: box-shadow var(--transition-interactive), border-color var(--transition-interactive), transform var(--transition-interactive);
+}
+.formation-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary-highlight);
+  transform: translateY(-2px);
+}
+
+/* Bande latérale */
+.formation-card__stripe {
+  width: 4px;
+  flex-shrink: 0;
+}
+.formation-card__stripe--done     { background: var(--color-primary); }
+.formation-card__stripe--progress { background: #d19900; }
+[data-theme="dark"] .formation-card__stripe--progress { background: #e8af34; }
+
+/* Contenu */
+.formation-card__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  min-width: 0;
+}
+
+/* Head */
+.formation-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+.formation-card__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+.formation-date,
+.formation-format,
+.formation-duration {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+.formation-date i,
+.formation-format i,
+.formation-duration i { color: var(--color-primary); }
+.meta-sep { color: var(--color-text-faint); font-size: var(--text-xs); }
+
+.formation-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  padding: 3px var(--space-2);
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+.formation-status--done     { color: #437a22; background: #d4dfcc; }
+.formation-status--progress { color: #964219; background: #ddcfc6; }
+[data-theme="dark"] .formation-status--done     { color: #6daa45; background: #3a4435; }
+[data-theme="dark"] .formation-status--progress { color: #bb653b; background: #564942; }
+
+/* Titre */
+.formation-card__title-block { display: flex; flex-direction: column; gap: var(--space-1); }
+.formation-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  line-height: 1.2;
+}
+.formation-provider {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+.formation-provider i { color: var(--color-primary); }
+
+/* Description */
+.formation-desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  line-height: 1.75;
+}
+
+/* Skills */
+.formation-skills { display: flex; align-items: flex-start; gap: var(--space-3); flex-wrap: wrap; }
+.skills-label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  padding-top: 3px;
+}
+.skills-list { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.skill-tag {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--color-primary);
+  background: var(--color-primary-highlight);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+/* Liens */
+.formation-links { display: flex; gap: var(--space-3); flex-wrap: wrap; }
+.formation-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  min-height: 36px;
+  border: 1px solid transparent;
+  transition: background var(--transition-interactive), color var(--transition-interactive), border-color var(--transition-interactive);
+}
+.formation-link--certificate {
+  color: var(--color-primary);
+  background: var(--color-primary-highlight);
+  border-color: var(--color-primary-highlight);
+}
+.formation-link--certificate:hover {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+.formation-link--external {
+  color: var(--color-text-muted);
+  background: transparent;
+  border-color: var(--color-border);
+}
+.formation-link--external:hover {
+  color: var(--color-text);
+  background: var(--color-surface-offset);
+  border-color: var(--color-text-muted);
+}
+
+/* ── ÉTAT VIDE ── */
+.empty-state { display: flex; flex-direction: column; align-items: center; text-align: center; padding: var(--space-20) var(--space-8); }
+.empty-state__icon { width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; background: var(--color-surface-offset); border-radius: var(--radius-full); color: var(--color-text-faint); margin-bottom: var(--space-4); }
+.empty-state h3 { font-size: var(--text-lg); color: var(--color-text); margin-bottom: var(--space-2); }
+.empty-state p  { font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-6); }
+.btn { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-5); border-radius: var(--radius-md); font-size: var(--text-sm); font-weight: 600; min-height: 44px; border: 1px solid transparent; cursor: pointer; }
+.btn--ghost { background: transparent; color: var(--color-text); border-color: var(--color-border); }
+.btn--ghost:hover { background: var(--color-surface-offset); border-color: var(--color-text-muted); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .filters-bar { top: 57px; }
+  .formation-card__head { flex-direction: column; align-items: flex-start; }
+  .formation-skills { flex-direction: column; gap: var(--space-2); }
+}
+
+/* ── GALERIE FORMATION ── */
+.formation-gallery {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-divider);
+}
+
+.formation-gallery__title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
+
+.formation-gallery__title i {
+  color: var(--color-primary);
+}
+
+.formation-gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+.formation-gallery__img-wrap {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-offset);
+}
+
+.formation-gallery__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 300ms var(--transition-interactive);
+}
+
+.formation-gallery__img-wrap:hover .formation-gallery__img {
+  transform: scale(1.03);
+}
+
+.formation-gallery__caption {
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .formation-gallery__grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

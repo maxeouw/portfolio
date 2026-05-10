@@ -24,19 +24,19 @@ const events = [
     // Laisse le tableau vide [] si tu n'as pas encore de photos.
     photos: [
       {
-        src: "/assets/evenements/hackathon/photo-1.jpg",
-        alt: "Notre équipe au hackathon",
-        caption: "Notre équipe au travail — nuit du 15 mars",
+        src: "/assets/hackathon/tel_ouvert.jpeg",
+        alt: "téléphone ouvert",
+        caption: "Le téléphone démonté et en cours de câblage pour les tests initiaux",
       },
       {
-        src: "/assets/evenements/hackathon/photo-2.jpg",
-        alt: "Présentation du projet",
-        caption: "Présentation finale devant le jury",
+        src: "/assets/hackathon/in_progress.jpg",
+        alt: "Projet en cours de développement",
+        caption: "Projet en cours de développement",
       },
       {
-        src: "/assets/evenements/hackathon/photo-3.jpg",
-        alt: "Remise des prix",
-        caption: "Remise des récompenses",
+        src: "/assets/hackathon/tel_finit.jpg",
+        alt: "Produit finit",
+        caption: "Le téléphone reconstruit, avec son clavier fonctionnel et prêt à sonner !",
       },
     ],
     links: [
@@ -271,18 +271,6 @@ const resultLabels: Record<string, { label: string; icon: string }> = {
             </article>
           );
         })}
-      </div>
-
-      <!-- État vide filtre -->
-      <div class="empty-state" id="empty-state" hidden>
-        <div class="empty-state__icon">
-          <i data-lucide="calendar-x" width="28" height="28"></i>
-        </div>
-        <h3>Aucun événement dans cette catégorie</h3>
-        <p>D'autres événements seront ajoutés bientôt.</p>
-        <button class="btn btn--ghost" id="reset-filter" type="button">
-          Voir tous les événements
-        </button>
       </div>
     </div>
   </section>

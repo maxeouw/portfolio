@@ -15,7 +15,6 @@ const projects = [
     status: "En cours",
     statusType: "progress",
     year: "2026",
-    github: "https://github.com/tonpseudo/tfe-sport",
     demo: null,
     highlights: [
       "Authentification Google OAuth",
@@ -45,21 +44,65 @@ const projects = [
   },
   {
     id: 3,
-    title: "Portfolio — Ce site",
-    description: "Site portfolio personnel développé avec Astro, sans framework JavaScript côté client. Design system custom, dark mode, animations CSS scroll-driven et déploiement sur Vercel.",
-    longDesc: "Conçu de A à Z pour présenter mon parcours et mes projets. L'occasion d'explorer Astro, les CSS view transitions et un design system cohérent.",
-    tags: ["Astro", "CSS", "JavaScript", "Vercel"],
+    title: "Dashboard système — Raspberry Pi Monitor",
+    duration: "~15 heures",
+    description: "Écran de monitoring dédié piloté par un Raspberry Pi 2, affichant en temps réel les performances du PC de bureau : CPU, RAM, GPU, températures et stockage. Données transmises via réseau local.",
+    longDesc: "Projet électronique personnel combinant hardware et software. Le Raspberry Pi récupère les métriques système depuis le PC via une API locale et les affiche sur un écran dédié sous forme de tableaux de bord.",
+    tags: ["Raspberry Pi", "Python", "HTML/CSS", "Électronique", "Réseau local"],
     category: "personnel",
-    status: "En cours",
-    statusType: "progress",
+    status: "Done",
+    statusType: "done",
     year: "2026",
-    github: "https://github.com/tonpseudo/portfolio",
-    demo: "https://monportfolio.dev",
+    demo: null,
     highlights: [
-      "Zéro JavaScript côté client par défaut",
-      "Dark / light mode natif",
-      "Design system Nexus custom",
-      "Déploiement automatique Vercel",
+      "Monitoring CPU, RAM, GPU en temps réel",
+      "Transmission des données via API réseau local",
+      "Interface web affichée sur écran dédié",
+      "Hébergé sur Raspberry Pi 2",
+    ],
+    photos: [
+      {
+        src: "/assets/projets/screen_setup.jpg",
+        alt: "Setup Raspberry Pi avec écran",
+        caption: "Le setup physique du projet",
+      },
+      {
+        src: "/assets/projets/rpi/dashboard.jpg",
+        alt: "Dashboard affiché sur l'écran",
+        caption: "Affichage des métriques en temps réel",
+      },
+    ],
+  },
+  {
+    id: 4,
+    title: "Montage PC — Assemblage pour tiers",
+    duration: "~30 heures",
+    description: "Conception et assemblage d'une dizaine d'ordinateurs de bureau sur mesure pour des particuliers : sélection des composants selon le budget et l'usage, montage physique, installation et configuration de l'OS.",
+    longDesc: "Du conseil à la livraison — analyse des besoins du client, sélection des composants compatibles et adaptés au budget, assemblage matériel complet et configuration logicielle initiale sous Windows ou Linux.",
+    tags: ["Hardware", "Windows", "Linux", "Conseil", "Assemblage"],
+    category: "personnel",
+    status: "Terminé",
+    statusType: "done",
+    year: "2023–2026",
+    github: null,
+    demo: null,
+    highlights: [
+      "~10 machines assemblées pour des particuliers",
+      "Sélection des composants selon budget et usage",
+      "Montage complet : boîtier, carte mère, câblage",
+      "Installation et configuration OS (Windows / Linux)",
+    ],
+    photos: [
+      {
+        src: "/assets/projets/pc_build.jpg",
+        alt: "Pc monté avec composants visibles",
+        caption: "Exemple d'un PC assemblé pour un tiers",
+      },
+      {
+        src: "/assets/projets/pc_portable.jpeg",
+        alt: "Pc portable réparé avec composants visibles",
+        caption: "Exemple d'un PC portable réparé pour un tiers",
+      },
     ],
   },
 ];
@@ -123,6 +166,10 @@ const categories = [
             <div class="project-card__head">
               <div class="project-card__meta">
                 <span class="project-year">{project.year}</span>
+                <span class="project-duration">
+                  <i data-lucide="clock" width="11" height="11"></i>
+                  {project.duration}
+                </span>
                 <span class:list={["project-status", `project-status--${project.statusType}`]}>
                   {project.statusType === "done"
                     ? <><i data-lucide="check-circle" width="12" height="12"></i> {project.status}</>
@@ -168,20 +215,47 @@ const categories = [
                 ))}
               </ul>
             </div>
+            {project.photos && project.photos.length > 0 && (
+              <div class="project-gallery">
+                <h3 class="project-gallery__title">
+                  <i data-lucide="images" width="14" height="14"></i>
+                  Photos du projet
+                </h3>
+
+                <div class:list={[
+                  "project-gallery__grid",
+                  project.photos.length === 1 && "project-gallery__grid--1",
+                  project.photos.length === 2 && "project-gallery__grid--2",
+                  project.photos.length >= 3 && "project-gallery__grid--3",
+                ]}>
+                  {project.photos.map((photo, index) => (
+                    <figure class:list={[
+                      "project-gallery__item",
+                      index === 0 && project.photos.length >= 3 && "project-gallery__item--featured"
+                    ]}>
+                      <div class="project-gallery__img-wrap">
+                        <img
+                          src={photo.src}
+                          alt={photo.alt}
+                          width="800"
+                          height="500"
+                          loading="lazy"
+                          decoding="async"
+                          class="project-gallery__img"
+                        />
+                      </div>
+                      {photo.caption && (
+                        <figcaption class="project-gallery__caption">
+                          {photo.caption}
+                        </figcaption>
+                      )}
+                    </figure>
+                  ))}
+                </div>
+              </div>
+            )}
           </article>
         ))}
-      </div>
-
-      <!-- État vide si aucun projet ne correspond au filtre -->
-      <div class="empty-state" id="empty-state" hidden>
-        <div class="empty-state__icon">
-          <i data-lucide="search-x" width="32" height="32"></i>
-        </div>
-        <h3>Aucun projet dans cette catégorie</h3>
-        <p>D'autres projets arrivent bientôt.</p>
-        <button class="btn btn--ghost" id="reset-filter" type="button">
-          Voir tous les projets
-        </button>
       </div>
     </div>
   </section>
@@ -534,5 +608,95 @@ const categories = [
 @media (max-width: 640px) {
   .filters-section { top: 57px; }
   .projects-grid { grid-template-columns: 1fr; }
+}
+/* ── GALERIE PROJET ── */
+.project-gallery {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-divider);
+}
+
+.project-gallery__title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
+
+.project-gallery__title i {
+  color: var(--color-primary);
+}
+
+.project-gallery__grid {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.project-gallery__grid--1 {
+  grid-template-columns: 1fr;
+  max-width: 640px;
+}
+
+.project-gallery__grid--2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.project-gallery__grid--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.project-gallery__item--featured {
+  grid-column: 1 / -1;
+}
+
+.project-gallery__img-wrap {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-offset);
+}
+
+.project-gallery__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 300ms var(--transition-interactive);
+}
+
+.project-gallery__img-wrap:hover .project-gallery__img {
+  transform: scale(1.03);
+}
+
+.project-gallery__caption {
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .project-gallery__grid--2,
+  .project-gallery__grid--3 {
+    grid-template-columns: 1fr;
+  }
+
+  .project-gallery__item--featured {
+    grid-column: 1;
+  }
+}
+.project-duration {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.project-duration i {
+  color: var(--color-primary);
 }
 </style>

@@ -1,0 +1,622 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+// ✏️ PERSONNALISE CES INFORMATIONS
+const contact = {
+  email:    "edwardgay02@yahoo.com",
+  github:   "https://github.com/maxeouw",
+  linkedin: "https://linkedin.com/in/tonpseudo",
+  location: "Bruxelles, Belgique",
+};
+
+const reasons = [
+  { icon: "briefcase",      label: "Opportunité de stage ou d'emploi" },
+  { icon: "code-2",         label: "Collaboration sur un projet" },
+  { icon: "message-circle", label: "Question sur mon travail" },
+  { icon: "users",          label: "Prise de contact générale" },
+];
+---
+
+<BaseLayout
+  title="Contact"
+  description="Prendre contact avec moi pour une opportunité, une collaboration ou une question."
+>
+  <Header slot="header" />
+
+  <!-- ── EN-TÊTE PAGE ── -->
+  <section class="page-hero">
+    <div class="container">
+      <p class="page-hero__label">
+        <i data-lucide="send" width="14" height="14"></i>
+        Me contacter
+      </p>
+      <h1 class="page-hero__title">Travaillons ensemble</h1>
+      <p class="page-hero__desc">
+        Disponible pour un stage, une première opportunité professionnelle ou une collaboration.
+        N'hésite pas à me laisser un message, je réponds généralement sous 48h.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── CONTENU PRINCIPAL ── -->
+  <section class="contact-section">
+    <div class="container">
+      <div class="contact-layout">
+
+        <!-- ── COLONNE GAUCHE : infos ── -->
+        <aside class="contact-info">
+
+          <!-- Disponibilité -->
+          <div class="availability-card">
+            <div class="availability-dot" aria-hidden="true"></div>
+            <div>
+              <p class="availability-title">Disponible actuellement</p>
+              <p class="availability-sub">Ouvert aux opportunités dès juin 2026</p>
+            </div>
+          </div>
+
+          <!-- Raisons de contact -->
+          <div class="info-block">
+            <h2 class="info-block__title">Tu peux me contacter pour…</h2>
+            <ul role="list" class="reasons-list">
+              {reasons.map(r => (
+                <li class="reason-item">
+                  <span class="reason-icon" aria-hidden="true">
+                    <i data-lucide={r.icon} width="15" height="15"></i>
+                  </span>
+                  {r.label}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <!-- Coordonnées directes -->
+          <div class="info-block">
+            <h2 class="info-block__title">Coordonnées</h2>
+            <ul role="list" class="coords-list">
+              <li>
+                <a href={`mailto:${contact.email}`} class="coord-link">
+                  <span class="coord-icon"><i data-lucide="mail" width="15" height="15"></i></span>
+                  <span class="coord-text">
+                    <span class="coord-label">Email</span>
+                    <span class="coord-value">{contact.email}</span>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href={contact.linkedin} target="_blank" rel="noopener noreferrer" class="coord-link">
+                  <span class="coord-icon"><i data-lucide="linkedin" width="15" height="15"></i></span>
+                  <span class="coord-text">
+                    <span class="coord-label">LinkedIn</span>
+                    <span class="coord-value">Voir mon profil</span>
+                  </span>
+                  <i data-lucide="arrow-up-right" width="13" height="13" class="coord-arrow"></i>
+                </a>
+              </li>
+              <li>
+                <a href={contact.github} target="_blank" rel="noopener noreferrer" class="coord-link">
+                  <span class="coord-icon"><i data-lucide="github" width="15" height="15"></i></span>
+                  <span class="coord-text">
+                    <span class="coord-label">GitHub</span>
+                    <span class="coord-value">Voir mes repos</span>
+                  </span>
+                  <i data-lucide="arrow-up-right" width="13" height="13" class="coord-arrow"></i>
+                </a>
+              </li>
+              <li>
+                <span class="coord-link coord-link--static">
+                  <span class="coord-icon"><i data-lucide="map-pin" width="15" height="15"></i></span>
+                  <span class="coord-text">
+                    <span class="coord-label">Localisation</span>
+                    <span class="coord-value">{contact.location}</span>
+                  </span>
+                </span>
+              </li>
+            </ul>
+          </div>
+
+        </aside>
+
+        <!-- ── COLONNE DROITE : formulaire ── -->
+        <div class="contact-form-wrap">
+          <form
+            class="contact-form"
+            id="contact-form"
+            novalidate
+          >
+            <div class="form-row">
+              <!-- Prénom -->
+              <div class="form-group">
+                <label for="firstname" class="form-label">
+                  Prénom <span class="required" aria-hidden="true">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="firstname"
+                  name="firstname"
+                  class="form-input"
+                  placeholder="Jean"
+                  autocomplete="given-name"
+                  required
+                />
+                <p class="form-error" id="firstname-error" role="alert" hidden>
+                  Ton prénom est requis.
+                </p>
+              </div>
+
+              <!-- Nom -->
+              <div class="form-group">
+                <label for="lastname" class="form-label">
+                  Nom <span class="required" aria-hidden="true">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="lastname"
+                  name="lastname"
+                  class="form-input"
+                  placeholder="Dupont"
+                  autocomplete="family-name"
+                  required
+                />
+                <p class="form-error" id="lastname-error" role="alert" hidden>
+                  Ton nom est requis.
+                </p>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+              <label for="email" class="form-label">
+                Email <span class="required" aria-hidden="true">*</span>
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="form-input"
+                placeholder="jean.dupont@email.com"
+                autocomplete="email"
+                required
+              />
+              <p class="form-error" id="email-error" role="alert" hidden>
+                Une adresse email valide est requise.
+              </p>
+            </div>
+
+            <!-- Sujet -->
+            <div class="form-group">
+              <label for="subject" class="form-label">Sujet</label>
+              <select id="subject" name="subject" class="form-select">
+                <option value="">Sélectionne un sujet…</option>
+                <option value="stage">Opportunité de stage</option>
+                <option value="emploi">Opportunité d'emploi</option>
+                <option value="collaboration">Collaboration / projet</option>
+                <option value="question">Question sur mon travail</option>
+                <option value="autre">Autre</option>
+              </select>
+            </div>
+
+            <!-- Message -->
+            <div class="form-group">
+              <label for="message" class="form-label">
+                Message <span class="required" aria-hidden="true">*</span>
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                class="form-textarea"
+                placeholder="Bonjour, je t'écris au sujet de…"
+                rows="6"
+                required
+              ></textarea>
+              <div class="textarea-footer">
+                <p class="form-error" id="message-error" role="alert" hidden>
+                  Un message est requis (10 caractères minimum).
+                </p>
+                <span class="char-count" id="char-count" aria-live="polite">0 / 1000</span>
+              </div>
+            </div>
+
+            <!-- Submit -->
+            <div class="form-submit">
+              <button type="submit" class="btn btn--primary" id="submit-btn">
+                <i data-lucide="send" width="16" height="16"></i>
+                Envoyer le message
+              </button>
+              <p class="form-note">
+                <i data-lucide="lock" width="12" height="12"></i>
+                Tes informations ne sont pas partagées.
+              </p>
+            </div>
+
+            <!-- Message de succès -->
+            <div class="form-success" id="form-success" hidden role="alert">
+              <div class="form-success__icon">
+                <i data-lucide="check-circle" width="22" height="22"></i>
+              </div>
+              <div>
+                <p class="form-success__title">Message envoyé !</p>
+                <p class="form-success__sub">Merci, je te répondrai dans les plus brefs délais.</p>
+              </div>
+            </div>
+
+            <!-- Message d'erreur global -->
+            <div class="form-error-global" id="form-error-global" hidden role="alert">
+              <i data-lucide="alert-circle" width="16" height="16"></i>
+              <p>Une erreur est survenue. Envoie-moi directement un email à <a href={`mailto:${contact.email}`}>{contact.email}</a>.</p>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<script>
+  // ── COMPTEUR DE CARACTÈRES ──
+  const textarea  = document.getElementById('message')    as HTMLTextAreaElement;
+  const charCount = document.getElementById('char-count') as HTMLElement;
+  const MAX_CHARS = 1000;
+
+  textarea?.addEventListener('input', () => {
+    const len = textarea.value.length;
+    charCount.textContent = `${len} / ${MAX_CHARS}`;
+    charCount.classList.toggle('char-count--warn', len > MAX_CHARS * 0.9);
+    if (len > MAX_CHARS) textarea.value = textarea.value.slice(0, MAX_CHARS);
+  });
+
+  // ── VALIDATION ──
+  function showError(id: string, show: boolean) {
+    const el = document.getElementById(`${id}-error`);
+    if (el) el.hidden = !show;
+    const input = document.getElementById(id) as HTMLElement;
+    input?.classList.toggle('form-input--error', show);
+  }
+
+  function validateForm(): boolean {
+    const firstname = (document.getElementById('firstname') as HTMLInputElement)?.value.trim();
+    const lastname  = (document.getElementById('lastname')  as HTMLInputElement)?.value.trim();
+    const email     = (document.getElementById('email')     as HTMLInputElement)?.value.trim();
+    const message   = (document.getElementById('message')   as HTMLTextAreaElement)?.value.trim();
+    const emailRe   = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    let valid = true;
+
+    showError('firstname', !firstname);
+    if (!firstname) valid = false;
+
+    showError('lastname', !lastname);
+    if (!lastname) valid = false;
+
+    showError('email', !email || !emailRe.test(email));
+    if (!email || !emailRe.test(email)) valid = false;
+
+    showError('message', !message || message.length < 10);
+    if (!message || message.length < 10) valid = false;
+
+    return valid;
+  }
+
+  // Validation en temps réel sur blur
+  ['firstname', 'lastname', 'email', 'message'].forEach(id => {
+    const el = document.getElementById(id);
+    el?.addEventListener('blur', () => {
+      if (id === 'email') {
+        const val = (el as HTMLInputElement).value.trim();
+        showError(id, !!val && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val));
+      }
+    });
+    el?.addEventListener('input', () => {
+      const error = document.getElementById(`${id}-error`);
+      if (!error?.hidden) showError(id, false);
+    });
+  });
+
+  // ── SOUMISSION ──
+  // Le formulaire utilise Formspree par défaut.
+  // Remplace l'URL ci-dessous par ton endpoint Formspree :
+  // 1. Va sur https://formspree.io et crée un compte gratuit
+  // 2. Crée un formulaire et copie ton endpoint (ex: https://formspree.io/f/XXXXXXXX)
+  // 3. Remplace FORMSPREE_ENDPOINT ci-dessous
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/XXXXXXXX';
+
+  const form        = document.getElementById('contact-form')    as HTMLFormElement;
+  const submitBtn   = document.getElementById('submit-btn')      as HTMLButtonElement;
+  const successMsg  = document.getElementById('form-success')    as HTMLElement;
+  const errorGlobal = document.getElementById('form-error-global') as HTMLElement;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
+
+    // État chargement
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `
+      <svg class="spinner" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+      </svg>
+      Envoi en cours…
+    `;
+
+    try {
+      const data = new FormData(form);
+      const res  = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        body: data,
+        headers: { Accept: 'application/json' },
+      });
+
+      if (res.ok) {
+        form.reset();
+        charCount.textContent = '0 / 1000';
+        form.style.display    = 'none';
+        successMsg.hidden     = false;
+      } else {
+        throw new Error('Formspree error');
+      }
+    } catch {
+      errorGlobal.hidden = false;
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = `<i data-lucide="send" width="16" height="16"></i> Envoyer le message`;
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+  });
+</script>
+
+<style>
+/* ── PAGE HERO ── */
+.page-hero {
+  padding-block: clamp(var(--space-12), 8vw, var(--space-24));
+  border-bottom: 1px solid var(--color-divider);
+}
+.page-hero__label {
+  display: inline-flex; align-items: center; gap: var(--space-1);
+  font-size: var(--text-sm); font-weight: 500; color: var(--color-primary);
+  margin-bottom: var(--space-3);
+}
+.page-hero__title {
+  font-family: var(--font-display); font-size: var(--text-3xl); font-weight: 700;
+  letter-spacing: -0.03em; color: var(--color-text); margin-bottom: var(--space-4);
+}
+.page-hero__desc {
+  font-size: var(--text-base); color: var(--color-text-muted);
+  max-width: 58ch; line-height: 1.7;
+}
+
+/* ── LAYOUT ── */
+.contact-section {
+  padding-block: clamp(var(--space-12), 8vw, var(--space-24));
+}
+.contact-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: var(--space-12);
+  align-items: start;
+}
+
+/* ── COLONNE GAUCHE ── */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  position: sticky;
+  top: calc(61px + var(--space-6));
+}
+
+/* Disponibilité */
+.availability-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+  box-shadow: var(--shadow-sm);
+}
+.availability-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #437a22;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px #d4dfcc;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+[data-theme="dark"] .availability-dot {
+  background: #6daa45;
+  box-shadow: 0 0 0 3px #3a4435;
+}
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 3px #d4dfcc; }
+  50%       { box-shadow: 0 0 0 5px #d4dfcc; }
+}
+[data-theme="dark"] @keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 3px #3a4435; }
+  50%       { box-shadow: 0 0 0 5px #3a4435; }
+}
+.availability-title { font-size: var(--text-sm); font-weight: 600; color: var(--color-text); }
+.availability-sub   { font-size: var(--text-xs); color: var(--color-text-muted); }
+
+/* Blocs info */
+.info-block { display: flex; flex-direction: column; gap: var(--space-3); }
+.info-block__title {
+  font-size: var(--text-xs); font-weight: 600; color: var(--color-text-muted);
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+
+/* Raisons */
+.reasons-list { display: flex; flex-direction: column; gap: var(--space-2); }
+.reason-item {
+  display: flex; align-items: center; gap: var(--space-2);
+  font-size: var(--text-sm); color: var(--color-text-muted);
+}
+.reason-icon {
+  display: flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: var(--radius-md);
+  background: var(--color-primary-highlight);
+  color: var(--color-primary); flex-shrink: 0;
+}
+
+/* Coordonnées */
+.coords-list { display: flex; flex-direction: column; gap: var(--space-1); }
+.coord-link {
+  display: flex; align-items: center; gap: var(--space-3);
+  padding: var(--space-3); border-radius: var(--radius-lg);
+  text-decoration: none; color: inherit;
+  transition: background var(--transition-interactive);
+}
+.coord-link:not(.coord-link--static):hover { background: var(--color-surface-offset); }
+.coord-link--static { cursor: default; }
+.coord-icon {
+  display: flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: var(--radius-md);
+  background: var(--color-surface-offset); color: var(--color-primary); flex-shrink: 0;
+}
+.coord-text  { display: flex; flex-direction: column; gap: 1px; flex: 1; min-width: 0; }
+.coord-label { font-size: var(--text-xs); color: var(--color-text-muted); }
+.coord-value { font-size: var(--text-sm); font-weight: 500; color: var(--color-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.coord-arrow { color: var(--color-text-faint); flex-shrink: 0; }
+
+/* ── FORMULAIRE ── */
+.contact-form-wrap {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: clamp(var(--space-6), 4vw, var(--space-10));
+  box-shadow: var(--shadow-sm);
+}
+
+.contact-form { display: flex; flex-direction: column; gap: var(--space-5); }
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.form-group { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.form-label {
+  font-size: var(--text-sm); font-weight: 600; color: var(--color-text);
+}
+.required { color: var(--color-primary); margin-left: 2px; }
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+  outline: none;
+  transition: border-color var(--transition-interactive), box-shadow var(--transition-interactive);
+  min-height: 44px;
+}
+.form-input::placeholder,
+.form-textarea::placeholder { color: var(--color-text-faint); }
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px oklch(from var(--color-primary) l c h / 0.15);
+}
+.form-input--error { border-color: #a12c7b !important; }
+[data-theme="dark"] .form-input--error { border-color: #d163a7 !important; }
+
+.form-select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237a7974' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-4) center;
+  padding-right: var(--space-10);
+}
+
+.form-textarea { resize: vertical; min-height: 140px; line-height: 1.6; }
+
+.textarea-footer {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4);
+}
+
+.form-error {
+  font-size: var(--text-xs); font-weight: 500;
+  color: #a12c7b;
+}
+[data-theme="dark"] .form-error { color: #d163a7; }
+
+.char-count {
+  font-size: var(--text-xs); color: var(--color-text-faint);
+  white-space: nowrap; flex-shrink: 0;
+}
+.char-count--warn { color: #964219; }
+[data-theme="dark"] .char-count--warn { color: #bb653b; }
+
+/* Submit */
+.form-submit { display: flex; align-items: center; gap: var(--space-4); flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  padding: var(--space-3) var(--space-6); border-radius: var(--radius-md);
+  font-size: var(--text-sm); font-weight: 600; min-height: 44px;
+  border: 1px solid transparent; cursor: pointer; white-space: nowrap;
+}
+.btn--primary {
+  background: var(--color-primary); color: var(--color-text-inverse);
+  border-color: var(--color-primary);
+}
+.btn--primary:hover:not(:disabled) { background: var(--color-primary-hover); border-color: var(--color-primary-hover); }
+.btn--primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.form-note {
+  display: inline-flex; align-items: center; gap: var(--space-1);
+  font-size: var(--text-xs); color: var(--color-text-faint);
+}
+
+/* Spinner */
+.spinner { animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Succès */
+.form-success {
+  display: flex; align-items: center; gap: var(--space-4);
+  padding: var(--space-5); border-radius: var(--radius-lg);
+  background: #d4dfcc; border: 1px solid #437a22;
+  color: #2e5c10;
+}
+[data-theme="dark"] .form-success {
+  background: #3a4435; border-color: #6daa45; color: #6daa45;
+}
+.form-success__icon { flex-shrink: 0; }
+.form-success__title { font-weight: 600; font-size: var(--text-sm); margin-bottom: 2px; }
+.form-success__sub   { font-size: var(--text-xs); opacity: 0.85; }
+
+/* Erreur globale */
+.form-error-global {
+  display: flex; align-items: flex-start; gap: var(--space-3);
+  padding: var(--space-4); border-radius: var(--radius-lg);
+  background: #e0ced7; border: 1px solid #a12c7b; color: #561740;
+  font-size: var(--text-sm);
+}
+[data-theme="dark"] .form-error-global {
+  background: #4c3d46; border-color: #d163a7; color: #d163a7;
+}
+.form-error-global a { color: inherit; font-weight: 600; text-decoration: underline; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .contact-layout { grid-template-columns: 1fr; }
+  .contact-info   { position: static; }
+}
+@media (max-width: 560px) {
+  .form-row { grid-template-columns: 1fr; }
+  .form-submit { flex-direction: column; align-items: flex-start; }
+}
+</style>
