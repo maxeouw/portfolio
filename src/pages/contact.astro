@@ -128,33 +128,6 @@ const cv = {
               </div>
             </div>
 
-            {cv.preview && (
-              <div class="cv-preview">
-                <img
-                  src={cv.preview}
-                  alt="Aperçu du CV de Gay Edward"
-                  width="600"
-                  height="848"
-                  loading="lazy"
-                  decoding="async"
-                  class="cv-preview__img"
-                />
-              </div>
-            )}
-
-            {!cv.preview && (
-              <div class="cv-placeholder" aria-hidden="true">
-                <div class="cv-placeholder__inner">
-                  <i data-lucide="file-text" width="40" height="40"></i>
-                  <span>Place ton CV dans <code>public/assets/cv/cv-edward-gay.pdf</code></span>
-                  <span class="cv-placeholder__hint">
-                    Pour ajouter un aperçu visuel, génère une image PNG de la 1re page
-                    et renseigne <code>preview</code> dans la variable <code>cv</code> ci-dessus.
-                  </span>
-                </div>
-              </div>
-            )}
-
             <div class="cv-card__actions">
               <a
                 href={cv.file}
