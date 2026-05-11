@@ -54,21 +54,6 @@ const formations = [
       },
     ],
   },
-  {
-    id: 3,
-    title: "Titre de la formation",
-    provider: "Nom de la plateforme / école",
-    category: "database",
-    format: "Présentiel",
-    duration: "X heures",
-    date: "Mois 20XX",
-    status: "progress",
-    statusLabel: "En cours",
-    description: "Décris brièvement ce que tu apprends dans cette formation.",
-    skills: ["Compétence 1", "Compétence 2"],
-    certificate: null,
-    link: null,
-  },
 ];
 
 const categories = [
@@ -76,8 +61,6 @@ const categories = [
   { value: "developpement",  label: "Développement", icon: "code-2" },
   { value: "devops",         label: "DevOps",        icon: "terminal" },
   { value: "database",       label: "Base de données", icon: "database" },
-  { value: "design",         label: "Design / UX",  icon: "pen-tool" },
-  { value: "reseau",         label: "Réseau / Sys.", icon: "network" },
   { value: "autre",          label: "Autre",         icon: "bookmark" },
 ];
 
@@ -271,18 +254,6 @@ const inProgress = formations.filter(f => f.status === "progress").length;
             </div>
           </article>
         ))}
-      </div>
-
-      <!-- État vide -->
-      <div class="empty-state" id="empty-state" hidden>
-        <div class="empty-state__icon">
-          <i data-lucide="search-x" width="28" height="28"></i>
-        </div>
-        <h3>Aucune formation dans ce domaine</h3>
-        <p>D'autres formations seront ajoutées bientôt.</p>
-        <button class="btn btn--ghost" id="reset-filter" type="button">
-          Voir toutes les formations
-        </button>
       </div>
     </div>
   </section>

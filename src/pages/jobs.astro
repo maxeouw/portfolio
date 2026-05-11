@@ -48,8 +48,8 @@ const jobs = [
     location: "Bruxelles, Belgique",
     type: "Job étudiant",
     sector: "Start-up / Intelligence artificielle",
-    startDate: "Janvier 2026",
-    endDate: "Janvier 2026",
+    startDate: "22 Janvier 2026",
+    endDate: "3 Février 2026",
     current: false,
     description: "Semaine de jobbiste au sein de Braft, une start-up bruxelloise développant une IA sécurisée conçue pour garder les documents et données strictement au sein de l'entreprise, sans aucune fuite externe. J'ai contribué au développement de l'interface visuelle de cette IA.",
     missions: [
@@ -60,12 +60,17 @@ const jobs = [
     skills: ["React", "Python", "Frontend", "IA", "Start-up"],
     photos: [
       {
-        src: "/assets/jobs/braft/photo-1.jpg",
+        src: "/assets/braft-photo/Colibri.jpeg",
         alt: "Interface de l'application Braft",
-        caption: "L'interface web de l'IA en développement",
+        caption: "Page d'accueil de l'application web Colibri sur laquelle j'ai travaillé",
       },
       {
-        src: "/assets/jobs/braft/photo-2.jpg",
+        src: "/assets/braft-photo/Chatbot2.jpeg",
+        alt: "Interface de chat avec l'IA",
+        caption: "Interface de chat avec l'IA, intégrant les fonctionnalités sur lesquelles j'ai travaillé",
+      },
+      {
+        src: "/assets/braft-photo/environement.png",
         alt: "Environnement de travail chez Braft",
         caption: "Dans les locaux de la start-up",
       },
@@ -197,6 +202,36 @@ const softSkills = [
                     <li class="skill-tag">{skill}</li>
                   ))}
                 </ul>
+              )}
+
+              <!-- Galerie photos -->
+              {job.photos && job.photos.length > 0 && (
+                <div class="job-gallery">
+                  <h3 class="job-gallery__title">
+                    <i data-lucide="images" width="14" height="14"></i>
+                    Photos
+                  </h3>
+                  <div class="job-gallery__grid">
+                    {job.photos.map(photo => (
+                      <figure class="job-gallery__item">
+                        <div class="job-gallery__img-wrap">
+                          <img
+                            src={photo.src}
+                            alt={photo.alt}
+                            width="800"
+                            height="500"
+                            loading="lazy"
+                            decoding="async"
+                            class="job-gallery__img"
+                          />
+                        </div>
+                        {photo.caption && (
+                          <figcaption class="job-gallery__caption">{photo.caption}</figcaption>
+                        )}
+                      </figure>
+                    ))}
+                  </div>
+                </div>
               )}
 
             </div>
@@ -419,5 +454,56 @@ const softSkills = [
   .job-card__head { flex-direction: column; align-items: flex-start; }
   .job-company-info { flex-direction: column; align-items: flex-start; gap: var(--space-1); }
   .job-sep { display: none; }
+}
+/* ── GALERIE JOB ── */
+.job-gallery {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-divider);
+}
+
+.job-gallery__title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
+
+.job-gallery__title i { color: var(--color-primary); }
+
+.job-gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+
+.job-gallery__img-wrap {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-offset);
+}
+
+.job-gallery__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 300ms var(--transition-interactive);
+}
+
+.job-gallery__img-wrap:hover .job-gallery__img { transform: scale(1.03); }
+
+.job-gallery__caption {
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--color-text-faint);
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .job-gallery__grid { grid-template-columns: 1fr; }
 }
 </style>
